@@ -1,0 +1,36 @@
+{
+  "name": "jobfit-ai",
+  "version": "0.0.0",
+  "scripts": {
+    "first-release": "npm run release -- --first-release",
+    "patch": "npm run release -- --release-as patch && python scripts/sync_version.py",
+    "minor": "npm run release -- --release-as minor && python scripts/sync_version.py",
+    "major": "npm run release -- --release-as major && python scripts/sync_version.py",
+    "release": "standard-version",
+    "publish-to-master": "git push --follow-tags origin master",
+    "upgrade": "node_modules/npm-check/bin/cli.js -u"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rubenrod18/jobfit-ai.git"
+  },
+  "author": "Rubén Rodríguez Ramírez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rubenrod18/jobfit-ai/issues"
+  },
+  "homepage": "https://github.com/Rubenrod18/jobfit-ai#readme",
+  "engine": {
+    "node": ">= 22"
+  },
+  "devDependencies": {
+    "npm-check": "^6.0.1",
+    "standard-version": "^9.5.0"
+  },
+  "standard-version": {
+    "skip": {
+      "commit": true,
+      "tag": true
+    }
+  }
+}
