@@ -172,3 +172,4 @@ cython_debug/
 
 # Mr Developer
 node_modules
+.env
