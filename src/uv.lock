@@ -282,12 +282,14 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "python-dotenv" },
     { name = "sqlmodel" },
+    { name = "uvicorn", extra = ["standard"] },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "factory-boy" },
     { name = "faker" },
+    { name = "uvicorn" },
 ]
 
 [package.metadata]
@@ -299,12 +301,14 @@ requires-dist = [
     { name = "pydantic-settings", specifier = ">=2.8.1" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "sqlmodel", specifier = ">=0.0.23" },
+    { name = "uvicorn", extras = ["standard"], specifier = ">=0.34.0" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "factory-boy", specifier = ">=3.3.3" },
     { name = "faker", specifier = ">=36.1.1" },
+    { name = "uvicorn", extras = ["dev"], specifier = ">=0.34.0" },
 ]
 
 [[package]]

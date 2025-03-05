@@ -1,0 +1,48 @@
+x-app-common:
+  &app-common
+  image: jobfit_ai:local
+  volumes:
+    - ".:/jobfit-ai-dir"
+  env_file:
+    - .env
+
+services:
+  app:
+    << : *app-common
+    container_name: jobfit_ai__app
+    build:
+      context: .
+      dockerfile: ./docker/local/Dockerfile.local
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - jobfit_ai__network
+    command: 'runserver.sh'
+
+  db:
+    << : *app-common
+    image: postgres:17
+    container_name: jobfit_ai__db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user", "-d", "postgres"]
+      interval: 5s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    networks:
+      - jobfit_ai__network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  jobfit_ai__network:
+    driver: bridge
