@@ -11,6 +11,7 @@ class BaseConfig(BaseSettings):
     APP_NAME: str = 'JobFit AI'
     DEBUG: bool = False
     DATABASE_URL: str = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SYNC_DATABASE_URL: str = os.getenv('SYNC_SQLALCHEMY_DATABASE_URI')
 
     class Config:
         env_file = '.env'
