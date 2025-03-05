@@ -1,2 +1,2 @@
 from .job import Job
-from .user import User
+from .user import ResumeSubmission, User

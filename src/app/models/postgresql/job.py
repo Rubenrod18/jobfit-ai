@@ -1,13 +1,15 @@
 from datetime import datetime, UTC
 
 from sqlalchemy import func
-from sqlmodel import Field
+from sqlmodel import Field, Relationship
 
 from app.models.base import TimestampedModel
 
 
 class Job(TimestampedModel, table=True):
     __tablename__ = 'jobs'
+
+    resume_submissions: list['ResumeSubmission'] = Relationship(back_populates='job')
 
     title: str
     description: str
