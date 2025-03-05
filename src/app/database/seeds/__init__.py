@@ -49,7 +49,7 @@ def get_seeders() -> dict:
         seeders = {}
 
         for item in modules:
-            if item != 'base_seeder.py' and item.endswith('.py'):
+            if item != 'base_seed.py' and item.endswith('.py'):
                 abs_path_module = f'{__name__}.{item[:-3]}'
                 seeder_instance = get_attr_from_module(abs_path_module, 'Seeder')()
                 seeders[seeder_instance.priority] = seeder_instance
