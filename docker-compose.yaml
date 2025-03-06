@@ -39,7 +39,37 @@ services:
     networks:
       - jobfit_ai__network
 
+  mongo:
+    << : *app-common
+    image: mongo:8.0
+    container_name: jobfit_ai__mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - jobfit_ai__network
+
+  mongo-express:
+    << : *app-common
+    image: mongo-express
+    container_name: jobfit_ai__mongo_express
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      mongo:
+          condition: service_healthy
+    networks:
+      - jobfit_ai__network
+
 volumes:
+  mongo_data:
   postgres_data:
     driver: local
 
