@@ -10,8 +10,14 @@ load_dotenv()
 class BaseConfig(BaseSettings):
     APP_NAME: str = 'JobFit AI'
     DEBUG: bool = False
+
+    # SQLAlchemy
     DATABASE_URL: str = os.getenv('SQLALCHEMY_DATABASE_URI')
     SYNC_DATABASE_URL: str = os.getenv('SYNC_SQLALCHEMY_DATABASE_URI')
+
+    # Beanie
+    MONGODB_URI: str = os.getenv('MONGO_URI')
+    MONGODB_NAME: str = os.getenv('MONGO_NAME')
 
     class Config:
         env_file = '.env'

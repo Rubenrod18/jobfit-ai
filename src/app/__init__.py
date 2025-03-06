@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+from app.models.mongodb.job_analysis import JobAnalysis
+from app.models.mongodb.resume_analysis import ResumeAnalysis
 from app.routers import ROUTERS
 
 
