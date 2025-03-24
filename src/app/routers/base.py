@@ -1,21 +1,25 @@
 import sqlalchemy as sa
+from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
 
 import database as db
+from app.di_container import ServiceDIContainer
+from database import SQLDatabase
 
 router = APIRouter()
 
 
 @router.get('/')
-async def welcome_route():
+def welcome_route():
     return {'Hello': 'World'}
 
 
 @router.get('/health')
-async def health_check(db: AsyncSession = Depends(db.get_db)):
+@inject
+def health_check(sql_db: SQLDatabase = Depends(Provide[ServiceDIContainer.sql_db])):
     try:
-        await db.execute(sa.text('SELECT 1'))
+        with sql_db.session() as session:
+            session.execute(sa.text('SELECT 1'))
         return {'message': 'Connected to PostgreSQL'}
     except Exception as e:
         return {'error': str(e)}

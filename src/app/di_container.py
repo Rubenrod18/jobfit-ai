@@ -20,6 +20,7 @@ class ServiceDIContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
     wiring_config = containers.WiringConfiguration(
         modules=[
+            '.routers.base',
             '.routers.users',
         ]
     )
