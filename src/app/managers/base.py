@@ -10,42 +10,20 @@ class BaseSQLManager:
         self.session = session
 
     def create(self, **kwargs) -> SQLModel:
-        current_date = datetime.now(UTC)
-        kwargs.update({'created_at': current_date, 'updated_at': current_date})
-        return self.model(**kwargs)
-
-    def save(self, record_id: int, **kwargs) -> SQLModel:
-        record = self.session.query(self.model).filter_by(id=record_id).first()
-
-        for key, value in kwargs.items():
-            setattr(record, key, value)
-
-        return record
-
-    def get(self, **kwargs) -> dict:
-        page = int(kwargs.get('page_number', 1)) - 1
-        items_per_page = int(kwargs.get('items_per_page', 10))
-
-        query = self.session.query(self.model)
-        records_total = self.session.query(self.model).count()
-
-        query = query.offset(page * items_per_page).limit(items_per_page)
-
-        return {
-            'query': query,
-            'records_total': records_total,
-            'records_filtered': query.count(),
-        }
-
-    def delete(self, record_id: int) -> SQLModel:
-        record = self.find(record_id)
-        record.deleted_at = datetime.now(UTC)
-        return record
+        with self.session() as session:
+            current_date = datetime.now(UTC)
+            kwargs.update({'created_at': current_date, 'updated_at': current_date})
+            user = self.model(**kwargs)
+            session.add(user)
+            session.commit()
+            session.refresh(user)
+            return user
 
     def find(self, record_id: int, *args) -> SQLModel | None:
-        query = self.session.query(self.model).filter(self.model.id == record_id)
+        with self.session() as session:
+            query = session.query(self.model).filter(self.model.id == record_id)
 
-        for arg in args:
-            query = query.filter(arg)
+            for arg in args:
+                query = query.filter(arg)
 
-        return query.first()
+            return query.first()
