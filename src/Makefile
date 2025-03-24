@@ -21,3 +21,9 @@ migrate-rollback:  ## Revert to a previous database migration
 
 seed:  ## Fill database with fake data
 	docker compose exec app uv run python cli.py seed
+
+# ==============================================
+# ==== COVERAGE, LINTER AND TEST COMMANDS ======
+# ==============================================
+test: ## Run tests
+	pytest
