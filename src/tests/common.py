@@ -1,6 +1,11 @@
+import os
+
 from faker import Faker
 from sqlalchemy import orm
 
-Session = orm.scoped_session(orm.sessionmaker())
+from database import SQLDatabase
+
+sql_db = SQLDatabase(db_url=os.getenv('SQLALCHEMY_DATABASE_URI'))
+session = orm.scoped_session(sql_db.sessionmaker)
 
 fake = Faker()

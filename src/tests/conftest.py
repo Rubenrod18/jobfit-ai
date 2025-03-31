@@ -9,8 +9,7 @@ from sqlalchemy import create_engine, text
 from app import create_app
 from app.cli import CreateDatabaseCli
 from app.models.base import BaseMixin
-from database import settings
-from tests.common import Session
+from tests.common import session as common_session
 
 
 def pytest_configure():
@@ -20,9 +19,9 @@ def pytest_configure():
 
 @pytest.fixture(scope='function', autouse=True)
 def setup_database():
-    db_uri = f'{settings.SYNC_DATABASE_URL}_{uuid.uuid4().hex}'
+    db_uri = f'{os.environ["SQLALCHEMY_DATABASE_URI"]}_{uuid.uuid4().hex}'
     engine = create_engine(db_uri)
-    Session.configure(bind=engine)
+    common_session.configure(bind=engine)
     os.environ['SQLALCHEMY_DATABASE_URI'] = db_uri
 
     def create_db():

@@ -40,9 +40,14 @@ def get_db() -> SessionLocal:
 class SQLDatabase:
     def __init__(self, db_url: str) -> None:
         self._engine = create_engine(db_url, echo=True)
-        self._session_factory = orm.scoped_session(
-            orm.sessionmaker(autocommit=False, autoflush=False, bind=self._engine, expire_on_commit=False)
+        self._sessionmaker = orm.sessionmaker(
+            autocommit=False, autoflush=False, bind=self._engine, expire_on_commit=False
         )
+        self._session_factory = orm.scoped_session(self._sessionmaker)
+
+    @property
+    def sessionmaker(self) -> orm.sessionmaker:
+        return self._sessionmaker
 
     @contextmanager
     def session(self) -> Callable[..., AbstractContextManager[Session]]:
