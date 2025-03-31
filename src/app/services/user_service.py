@@ -1,14 +1,15 @@
 from sqlmodel import SQLModel
 
 from app.managers.postgresql.user_manager import UserManager
+from app.services.base import BaseService
 
 
-class UserService:
-    def __init__(self, user_manager: UserManager) -> None:
-        self._manager = user_manager
+class UserService(BaseService):
+    def __init__(self, manager: UserManager) -> None:
+        super().__init__(manager=manager)
 
     def get_user_by_id(self, user_id: int) -> SQLModel:
-        return self._manager.find(user_id)
+        return self.manager.find(user_id)
 
     def create_user(self, user_data: dict) -> SQLModel:
-        return self._manager.create(**user_data)
+        return self.manager.create(**user_data)
