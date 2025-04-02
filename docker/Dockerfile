@@ -6,9 +6,9 @@
 # -------------------------------------------
 # Base Image Configuration
 # -------------------------------------------
-# Use the official Python 3.13 slim image as the base image.
+# Use the official Python 3.12 slim image as the base image.
 # The slim variant is minimal and avoids unnecessary components, reducing image size.
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 # -------------------------------------------
 # Environment Variable Setup
@@ -39,10 +39,12 @@ COPY ../src $HOMEDIR
 # -------------------------------------------
 # - gcc: GNU Compiler Collection for compiling dependencies.
 # - libpq-dev: PostgreSQL library for database interactions.
+# - clang: A dependency of spacy Python package.
 # - git: For cloning repositories.
 RUN apt-get update && apt-get install --assume-yes \
   gcc \
   libpq-dev \
+  clang \
   git \
   && rm -rf /var/lib/apt/lists/*
 

@@ -2,7 +2,7 @@
 
 # Docker
 REGISTRY = rubenrod18/jobfit-ai
-CACHE_KEY = cache_python_3.13_pip
+CACHE_KEY = cache_python_3.12_pip
 LOCAL_VERSION ?= local
 
 help:
@@ -16,7 +16,7 @@ _build:
 		--tag $(REGISTRY):$(LOCAL_VERSION) \
 		--tag $(REGISTRY):$(CACHE_KEY) \
 		--file docker/Dockerfile \
-		--cache-from python:3.13-slim \
+		--cache-from python:3.12-slim \
 		--cache-from $(REGISTRY):$(LOCAL_VERSION) \
 		--cache-from $(REGISTRY):$(CACHE_KEY)
 
