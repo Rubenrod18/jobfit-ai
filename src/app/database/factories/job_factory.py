@@ -13,7 +13,7 @@ class JobFactory(BaseFactory):
 
     title = factory.Faker('job')
     description = factory.Faker('text')
-    required_skills = factory.Faker('words', nb=3)
+    required_skills = factory.Faker('sentence', nb_words=3)
     company = factory.Faker('company')
     posted_at = faker.date_time_between(start_date='-3y', end_date='now')
 

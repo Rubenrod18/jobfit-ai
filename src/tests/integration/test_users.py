@@ -1,10 +1,10 @@
-from httpx import AsyncClient
+from starlette.testclient import TestClient
 
 from app.database.factories.user_factory import UserFactory
 from tests.common import fake
 
 
-def test_create_user(client: AsyncClient):
+def test_create_user(client: TestClient):
     payload = {
         'name': fake.name(),
         'email': fake.email(),
@@ -18,7 +18,7 @@ def test_create_user(client: AsyncClient):
     assert json_response['email'] == payload['email']
 
 
-def test_get_user(client):
+def test_get_user(client: TestClient):
     user = UserFactory()
 
     response = client.get(f'/users/{user.id}')

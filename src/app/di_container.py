@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from app.managers.postgresql.job_manager import JobManager
 from app.managers.postgresql.resume_submission_manager import ResumeSubmissionManager
 from app.managers.postgresql.user_manager import UserManager
+from app.services.job_service import JobService
 from app.services.user_service import UserService
 from config import get_settings
 from database import SQLDatabase
@@ -23,6 +24,7 @@ class ServiceDIContainer(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(
         modules=[
             '.routers.base',
+            '.routers.jobs',
             '.routers.users',
         ]
     )
@@ -38,7 +40,5 @@ class ServiceDIContainer(containers.DeclarativeContainer):
     user_manager = providers.Factory(UserManager, session=sql_db.provided.session)
 
     # Services
-    user_service = providers.Factory(
-        UserService,
-        manager=user_manager,
-    )
+    user_service = providers.Factory(UserService, manager=user_manager)
+    job_service = providers.Factory(JobService, manager=job_manager)
