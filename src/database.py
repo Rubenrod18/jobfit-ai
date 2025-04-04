@@ -20,8 +20,8 @@ client = AsyncIOMotorClient(settings.MONGODB_URI)
 database = client.get_database(settings.MONGODB_NAME)
 
 
-def mongo_init_beanie():
-    init_beanie(database, document_models=[JobAnalysis, ResumeAnalysis])
+async def mongo_init_db():
+    await init_beanie(database, document_models=[JobAnalysis, ResumeAnalysis])
 
 
 class SQLDatabase:
