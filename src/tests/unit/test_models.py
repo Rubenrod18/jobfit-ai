@@ -1,4 +1,7 @@
 from app.database.factories.base_factory import faker
+from app.database.factories.job_factory import JobFactory
+from app.database.factories.resume_submission_factory import ResumeSubmissionFactory
+from app.database.factories.user_factory import UserFactory
 from app.models.postgresql import Job, User
 from tests.common import fake
 
@@ -34,3 +37,25 @@ def test_create_job():
     assert job.created_at
     assert job.updated_at
     assert job.deleted_at is None
+
+
+def test_create_resume_submission():
+    job = JobFactory()
+    user = UserFactory()
+    data = {
+        'job': job,
+        'user': user,
+        'resume_text': faker.paragraph(),
+        'score': faker.pyfloat(min_value=0.0, max_value=100.0),
+    }
+
+    resume_submission = ResumeSubmissionFactory(**data, deleted_at=None)
+
+    assert resume_submission.job_id == data['job'].id
+    assert resume_submission.user_id == data['user'].id
+    assert resume_submission.resume_text == data['resume_text']
+    assert resume_submission.score == data['score']
+    assert resume_submission.submission_date
+    assert resume_submission.created_at
+    assert resume_submission.updated_at
+    assert resume_submission.deleted_at is None

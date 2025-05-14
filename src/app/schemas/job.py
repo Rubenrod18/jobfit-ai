@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from app.schemas.base import TimestampMixin
+from app.schemas.core import TimestampMixin
 
 
 class JobCreate(BaseModel):

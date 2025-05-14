@@ -10,10 +10,9 @@ dependencies = [
     "beanie>=1.29.0",
     "dependency-injector>=4.46.0",
     "fastapi[standard]>=0.115.11",
-    "fitz>=0.0.1.dev2",
+    "pdfplumber>=0.11.6",
     "psycopg2>=2.9.10",
     "pydantic-settings>=2.8.1",
-    "python-docx>=1.1.2",
     "python-dotenv>=1.0.1",
     "spacy>=3.8.5",
     "sqlmodel>=0.0.23",
@@ -25,4 +24,5 @@ dev = [
     "factory-boy>=3.3.3",
     "faker>=36.1.1",
     "pytest>=8.3.5",
+    "reportlab>=4.4.0",
 ]

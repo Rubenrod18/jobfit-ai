@@ -9,6 +9,7 @@ from app.managers.postgresql.job_manager import JobManager
 from app.managers.postgresql.resume_submission_manager import ResumeSubmissionManager
 from app.managers.postgresql.user_manager import UserManager
 from app.services.job_service import JobService
+from app.services.resume_submission_service import ResumeSubmissionService
 from app.services.user_service import UserService
 from config import get_settings
 from database import SQLDatabase
@@ -26,6 +27,8 @@ class ServiceDIContainer(containers.DeclarativeContainer):
             '.routers.base',
             '.routers.jobs',
             '.routers.users',
+            '.routers.resume_submissions',
+            '.schemas.resume_submission',
         ]
     )
     # OPTIMIZE: Load all env vars on this config
@@ -42,3 +45,4 @@ class ServiceDIContainer(containers.DeclarativeContainer):
     # Services
     user_service = providers.Factory(UserService, manager=user_manager)
     job_service = providers.Factory(JobService, manager=job_manager)
+    resume_submission_service = providers.Factory(ResumeSubmissionService, manager=resume_submission_manager)

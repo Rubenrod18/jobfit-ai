@@ -63,7 +63,12 @@ def setup_database():
 
 
 @pytest.fixture
-def client(setup_database):
+def app(setup_database):
     app = create_app()
     app.container.config.from_dict({'SQLALCHEMY_DATABASE_URI': os.environ['SQLALCHEMY_DATABASE_URI']})
+    return app
+
+
+@pytest.fixture
+def client(app):
     yield TestClient(app)

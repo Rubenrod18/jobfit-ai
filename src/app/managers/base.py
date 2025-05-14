@@ -13,11 +13,11 @@ class BaseSQLManager:
         with self.session() as session:
             current_date = datetime.now(UTC)
             kwargs.update({'created_at': current_date, 'updated_at': current_date})
-            user = self.model(**kwargs)
-            session.add(user)
+            record = self.model(**kwargs)
+            session.add(record)
             session.commit()
-            session.refresh(user)
-            return user
+            session.refresh(record)
+            return record
 
     def find(self, record_id: int, *args) -> SQLModel | None:
         with self.session() as session:
