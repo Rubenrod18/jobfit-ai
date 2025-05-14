@@ -1,0 +1,28 @@
+version: 2
+enable-beta-ecosystems: true
+updates:
+- package-ecosystem: docker
+  directory: "/docker"
+  schedule:
+    interval: weekly
+    day: "monday"
+    time: "02:00"
+    timezone: Europe/Madrid
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: "[Dep][docker] "
+  labels:
+    - dependabot
+  reviewers:
+    - "Rubenrod18"
+- package-ecosystem: uv
+  directory: "/src"
+  schedule:
+    interval: daily
+    time: "01:00"
+    timezone: Europe/Madrid
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: "build(pip): "
+  labels:
+    - dependabot
