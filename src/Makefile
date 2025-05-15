@@ -26,4 +26,4 @@ seed:  ## Fill database with fake data
 # ==== COVERAGE, LINTER AND TEST COMMANDS ======
 # ==============================================
 test: ## Run tests
-	pytest
+	@uv run pytest
