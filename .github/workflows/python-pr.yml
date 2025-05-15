@@ -60,6 +60,7 @@ jobs:
 
       - name: Run tests with make
         run: |
+          cd src
           make test
         working-directory: ${{ env.working-directory }}
 
