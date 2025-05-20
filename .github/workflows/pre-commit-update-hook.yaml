@@ -52,4 +52,3 @@ jobs:
           branch: "update-pre-commit-hook-${{ env.pre_commit_version }}"
           commit-message: "ci(pre-commit): update pre-commit hook version to ${{ env.pre_commit_version }}"
           delete-branch: true
-          push: true

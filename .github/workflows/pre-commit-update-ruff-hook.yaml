@@ -52,4 +52,3 @@ jobs:
           branch: "update-ruff-hook-${{ env.ruff_version }}"
           commit-message: "ci(ruff): update pre-commit hook Ruff version to ${{ env.ruff_version }}"
           delete-branch: true
-          push: true
