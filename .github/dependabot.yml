@@ -10,7 +10,18 @@ updates:
     timezone: Europe/Madrid
   open-pull-requests-limit: 10
   commit-message:
-    prefix: "[Dep][docker] "
+    prefix: "build(docker): "
+  labels:
+    - dependabot
+  reviewers:
+    - "Rubenrod18"
+- package-ecosystem: docker-compose
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: "build(docker-compose): "
   labels:
     - dependabot
   reviewers:
@@ -24,5 +35,14 @@ updates:
   open-pull-requests-limit: 10
   commit-message:
     prefix: "build(pip): "
+  labels:
+    - dependabot
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: "weekly"
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: "ci(github-actions): "
   labels:
     - dependabot
