@@ -1,5 +1,7 @@
 from pydantic import BaseModel, EmailStr
 
+from app.schemas.core import TimestampMixin
+
 
 class UserCreate(BaseModel):
     name: str
@@ -11,7 +13,7 @@ class UserUpdate(BaseModel):
     email: EmailStr | None = None
 
 
-class UserResponse(BaseModel):
+class UserResponse(BaseModel, TimestampMixin):
     id: int
     name: str
     email: EmailStr

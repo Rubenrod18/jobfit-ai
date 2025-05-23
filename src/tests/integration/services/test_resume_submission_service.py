@@ -20,59 +20,59 @@ def resume_submission_service(resume_submission_manager):
     return ResumeSubmissionService(manager=resume_submission_manager)
 
 
-def test_create_resume_submission_service(resume_submission_service):
-    data = ResumeSubmissionFactory.build_dict(exclude={'id', 'created_at', 'updated_at', 'deleted_at', 'job', 'user'})
-    data['job_id'] = JobFactory().id
-    data['user_id'] = UserFactory().id
+class TestResumeSubmissionService:
+    def test_create_resume_submission_service(self, resume_submission_service):
+        data = ResumeSubmissionFactory.build_dict(
+            exclude={'id', 'created_at', 'updated_at', 'deleted_at', 'job', 'user'}
+        )
+        data['job_id'] = JobFactory().id
+        data['user_id'] = UserFactory().id
 
-    resume_submission = resume_submission_service.create_resume_submission(data)
+        resume_submission = resume_submission_service.create_resume_submission(data)
 
-    assert isinstance(resume_submission.id, int)
-    assert resume_submission.user_id == data['user_id']
-    assert resume_submission.job_id == data['job_id']
-    assert resume_submission.resume_text == data['resume_text']
-    assert isinstance(resume_submission.created_at, datetime)
-    assert isinstance(resume_submission.updated_at, datetime)
-    assert resume_submission.deleted_at is None
+        assert isinstance(resume_submission.id, int)
+        assert resume_submission.user_id == data['user_id']
+        assert resume_submission.job_id == data['job_id']
+        assert resume_submission.resume_text == data['resume_text']
+        assert isinstance(resume_submission.created_at, datetime)
+        assert isinstance(resume_submission.updated_at, datetime)
+        assert resume_submission.deleted_at is None
 
+    def test_find_resume_submission_service(self, resume_submission_service):
+        resume_submission = ResumeSubmissionFactory(deleted_at=None)
 
-def test_find_resume_submission_service(resume_submission_service):
-    resume_submission = ResumeSubmissionFactory(deleted_at=None)
+        resume_submission = resume_submission_service.get_resume_submission_by_id(resume_submission.id)
 
-    resume_submission = resume_submission_service.get_resume_submission_by_id(resume_submission.id)
+        assert resume_submission.id == resume_submission.id
+        assert resume_submission.user_id == resume_submission.user_id
+        assert resume_submission.job_id == resume_submission.job_id
+        assert resume_submission.resume_text == resume_submission.resume_text
+        assert isinstance(resume_submission.created_at, datetime)
+        assert isinstance(resume_submission.updated_at, datetime)
+        assert resume_submission.deleted_at is None
 
-    assert resume_submission.id == resume_submission.id
-    assert resume_submission.user_id == resume_submission.user_id
-    assert resume_submission.job_id == resume_submission.job_id
-    assert resume_submission.resume_text == resume_submission.resume_text
-    assert isinstance(resume_submission.created_at, datetime)
-    assert isinstance(resume_submission.updated_at, datetime)
-    assert resume_submission.deleted_at is None
+    def test_find_resume_submission_service_with_condition(self, resume_submission_service):
+        resume_submission = ResumeSubmissionFactory(deleted_at=None)
 
+        resume_submission = resume_submission_service.get_resume_submission_by_id(
+            resume_submission.id,
+            resume_submission_service.manager.model.resume_text == resume_submission.resume_text,
+        )
 
-def test_find_resume_submission_service_with_condition(resume_submission_service):
-    resume_submission = ResumeSubmissionFactory(deleted_at=None)
+        assert resume_submission.id == resume_submission.id
+        assert resume_submission.user_id == resume_submission.user_id
+        assert resume_submission.job_id == resume_submission.job_id
+        assert resume_submission.resume_text == resume_submission.resume_text
+        assert isinstance(resume_submission.created_at, datetime)
+        assert isinstance(resume_submission.updated_at, datetime)
+        assert resume_submission.deleted_at is None
 
-    resume_submission = resume_submission_service.get_resume_submission_by_id(
-        resume_submission.id,
-        resume_submission_service.manager.model.resume_text == resume_submission.resume_text,
-    )
+    def test_find_resume_submission_service_with_condition_not_found(self, resume_submission_service):
+        resume_submission = ResumeSubmissionFactory(deleted_at=None)
 
-    assert resume_submission.id == resume_submission.id
-    assert resume_submission.user_id == resume_submission.user_id
-    assert resume_submission.job_id == resume_submission.job_id
-    assert resume_submission.resume_text == resume_submission.resume_text
-    assert isinstance(resume_submission.created_at, datetime)
-    assert isinstance(resume_submission.updated_at, datetime)
-    assert resume_submission.deleted_at is None
+        resume_submission = resume_submission_service.get_resume_submission_by_id(
+            resume_submission.id,
+            resume_submission_service.manager.model.resume_text == 'not found',
+        )
 
-
-def test_find_resume_submission_service_with_condition_not_found(resume_submission_service):
-    resume_submission = ResumeSubmissionFactory(deleted_at=None)
-
-    resume_submission = resume_submission_service.get_resume_submission_by_id(
-        resume_submission.id,
-        resume_submission_service.manager.model.resume_text == 'not found',
-    )
-
-    assert resume_submission is None
+        assert resume_submission is None

@@ -3,45 +3,42 @@ import io
 from fastapi import UploadFile
 
 from app.helpers.resume_parser import parse_resume
-from tests.common import generate_pdf_bytes
+from tests.common import fake, generate_pdf_bytes
 
 
-def test_resume_parser_with_a_pdf_file():
-    text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    file = UploadFile(
-        filename='test_file.pdf',
-        file=io.BytesIO(generate_pdf_bytes(text)),
-    )
+class TestResumeParser:
+    def test_resume_parser_with_a_pdf_file(self):
+        text = fake.paragraph()
+        file = UploadFile(
+            filename='test_file.pdf',
+            file=io.BytesIO(generate_pdf_bytes(text)),
+        )
 
-    pdf_content = parse_resume(file)
+        pdf_content = parse_resume(file)
 
-    assert pdf_content == text
+        assert pdf_content == text
 
+    def test_resume_parser_with_a_pdf_file_empty(self):
+        text = ''
+        file = UploadFile(
+            filename='test_file.pdf',
+            file=io.BytesIO(generate_pdf_bytes(text)),
+        )
 
-def test_resume_parser_with_a_pdf_file_empty():
-    text = ''
-    file = UploadFile(
-        filename='test_file.pdf',
-        file=io.BytesIO(generate_pdf_bytes(text)),
-    )
+        pdf_content = parse_resume(file)
 
-    pdf_content = parse_resume(file)
+        assert pdf_content == text
 
-    assert pdf_content == text
+    def test_resume_parser_with_a_text_file(self):
+        buffer = io.BytesIO()
+        buffer.write(fake.paragraph().encode('utf-8'))
+        buffer.seek(0)
+        buffer.read()
+        file = UploadFile(
+            filename='test_file.txt',
+            file=buffer,
+        )
 
+        txt_content = parse_resume(file)
 
-def test_resume_parser_with_a_text_file():
-    text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    buffer = io.BytesIO()
-    buffer.write(text.encode('utf-8'))
-    buffer.seek(0)
-    buffer.read()
-
-    file = UploadFile(
-        filename='test_file.txt',
-        file=buffer,
-    )
-
-    txt_content = parse_resume(file)
-
-    assert txt_content == ''
+        assert txt_content == ''
